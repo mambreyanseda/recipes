@@ -1,0 +1,12 @@
+id,name,category,ingredient_ids,steps
+1,test recipe,dessert,4,"1. open test recipe, 2. copy the steps, 3. enter"
+2,Greek Salad,Lunch,"4,5,6,3","Chop lettuce and vegetables, add feta, drizzle olive oil, sprinkle salt, mix well."
+3,Chicken Pasta,Dinner,"7,8,9,3","Boil pasta, cook chicken, mix with tomato sauce and season with salt."
+4,Pancakes,Breakfast,"1,2,3","Mix eggs and milk, add a pinch of salt, pour batter on pan, flip when golden."
+5,Vegetable Soup,Dinner,"4,9,3","Boil vegetables, add tomato sauce and salt, simmer until cooked."
+6,Avocado Toast,Breakfast,"6,3","Toast bread, add mashed avocado on top, drizzle olive oil, sprinkle salt."
+7,Grilled Chicken,Lunch,"7,6,3","Marinate chicken with olive oil and salt, grill for 20 minutes."
+8,Fruit Smoothie,Snack,"2,10,11,12","Blend fruits with milk, yogurt, banana, and honey. Serve cold."
+9,Chocolate Cake,Dessert,"1,2,3","Mix ingredients, bake at 180°C for 30 minutes."
+10,Caesar Salad,Lunch,"4,7,5,6,3","Mix lettuce, grilled chicken, feta, croutons, add olive oil and salt."
+11,Fruit Salad,Breakfast,"10,11","Cut fruits, mix them together."
