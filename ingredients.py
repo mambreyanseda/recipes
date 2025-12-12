@@ -78,16 +78,34 @@ def search_ingredients_by_calories(ingredients_list):
 def add_ingredient(ingredients_list):
     last_ids = load_last_ids()
     Id = generate_new_id(last_ids, "ingredients")
-    name = input("Enter ingredient name (or 'back' to cancel): ")
-    if name.lower()=="back":
-        print("Cancelled.")
-        return
-    category = input("Enter ingredient category: ")
+    
+    # Validate ingredient name - cannot be empty
+    while True:
+        name = input("Enter ingredient name (or 'back' to cancel): ")
+        if name.lower()=="back":
+            print("Cancelled.")
+            return
+        if name.strip():
+            break
+        print("Ingredient name cannot be empty! Please enter a valid name.")
+    
+    # Validate category - cannot be empty
+    while True:
+        category = input("Enter ingredient category: ")
+        if category.strip():
+            break
+        print("Category cannot be empty! Please enter a valid category.")
+    
+    # Validate calories - must be a positive number
     while True:
         calories = input("Enter calories: ")
-        if calories.isdigit():
+        if calories.isdigit() and int(calories) > 0:
             break
-        print("Must be a number!")
+        if calories.isdigit() and int(calories) == 0:
+            print("Calories must be a positive number (greater than 0)!")
+        else:
+            print("Calories must be a valid positive number!")
+    
     ingredient = {"id": Id, "name": name, "category": category, "calories": calories}
     ingredients_list.append(ingredient)
     save_ingredients(ingredients_list)
@@ -105,14 +123,32 @@ def edit_ingredients(ingredients_list):
                 print("Invalid.")
                 return
             if change=="calories":
+                # Validate calories - must be positive number
                 while True:
                     new_value = input("Enter new value: ")
-                    if new_value.isdigit():
+                    if new_value.isdigit() and int(new_value) > 0:
                         ing[change]=new_value
                         break
-                    print("Must be a number!")
-            else:
-                ing[change] = input("Enter new value: ")  
+                    if new_value.isdigit() and int(new_value) == 0:
+                        print("Calories must be a positive number (greater than 0)!")
+                    else:
+                        print("Calories must be a valid positive number!")
+            elif change=="name":
+                # Validate name - cannot be empty
+                while True:
+                    new_value = input("Enter new value: ")
+                    if new_value.strip():
+                        ing[change] = new_value
+                        break
+                    print("Name cannot be empty!")
+            elif change=="category":
+                # Validate category - cannot be empty
+                while True:
+                    new_value = input("Enter new value: ")
+                    if new_value.strip():
+                        ing[change] = new_value
+                        break
+                    print("Category cannot be empty!")
             save_ingredients(ingredients_list)  
             print("Updated!")
             return

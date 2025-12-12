@@ -1,5 +1,4 @@
-import csv
-import json
+import csv, json
 
 def open_file_read(filename):
     return open(filename, "r")

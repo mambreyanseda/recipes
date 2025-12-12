@@ -103,6 +103,22 @@ def search_recipes(recipes_list, ingredients_list):
             print(f"ID: {recipe['id']}")
             print(f"Name: {recipe['name']}")
             print(f"Category: {recipe['category']}")
+            
+            print("Ingredients:")
+            ing_ids = recipe["ingredient_ids"]
+            if ing_ids:
+                for ing_id in ing_ids:
+                    found_ing = False
+                    for ing in ingredients_list:
+                        if ing["id"] == ing_id:
+                            print(f"- {ing['name']} ({ing['category']}, {ing['calories']} cal)")
+                            found_ing = True
+                            break
+                    if not found_ing:
+                        print(f"- Ingredient {ing_id} not found")
+            else:
+                print("- None")
+            
             print(f"Steps:\n{recipe['steps']}")
             print("-" * 40)
             found = True
@@ -115,10 +131,17 @@ def add_recipe(recipes_list, ingredients_list, add_ingredient_func):
     last_ids = load_last_ids()
     Id = generate_new_id(last_ids, "recipes")
     print(f"Assigned Recipe ID: {Id}")
-    name = input("Enter recipe name (or 'back' to cancel): ")
-    if name.lower()=="back":
-        print("Cancelled.")
-        return
+    
+    # Validate recipe name - cannot be empty
+    while True:
+        name = input("Enter recipe name (or 'back' to cancel): ")
+        if name.lower()=="back":
+            print("Cancelled.")
+            return
+        if name.strip():  # Check if not empty after removing whitespace
+            break
+        print("Recipe name cannot be empty! Please enter a valid name.")
+    
     valid_categories = get_valid_categories(recipes_list)
     if valid_categories:
         while True:
@@ -127,8 +150,19 @@ def add_recipe(recipes_list, ingredients_list, add_ingredient_func):
                 break
             print(f"Invalid category. Choose from: {display_valid_categories(recipes_list)}.")
     else:
-        category = input("Enter category: ").lower()
-    steps = input("Enter recipe steps: ")
+        # Validate category - cannot be empty
+        while True:
+            category = input("Enter category: ").lower()
+            if category.strip():
+                break
+            print("Category cannot be empty! Please enter a valid category.")
+    
+    # Validate steps - cannot be empty
+    while True:
+        steps = input("Enter recipe steps: ")
+        if steps.strip():
+            break
+        print("Recipe steps cannot be empty! Please enter valid steps.")
 
     ing_ids = []
     print("\nAvailable ingredients:")
@@ -186,7 +220,13 @@ def edit_recipes(recipes_list, ingredients_list, add_ingredient_func, save_ingre
             while True:
                 change = input("Enter field to change (name, category, steps, ingredients):").lower()
                 if change=="name":
-                    recipe["name"] = input("Enter new name:")
+                    # Validate new name - cannot be empty
+                    while True:
+                        new_name = input("Enter new name:")
+                        if new_name.strip():
+                            recipe["name"] = new_name
+                            break
+                        print("Name cannot be empty!")
 
                 elif change=="category":
                     valid_categories = get_valid_categories(recipes_list)
@@ -198,7 +238,13 @@ def edit_recipes(recipes_list, ingredients_list, add_ingredient_func, save_ingre
                         print(f"Invalid. Choose from: {display_valid_categories(recipes_list)}.")
 
                 elif change=="steps":
-                    recipe["steps"] = input("Enter new steps:")
+                    # Validate new steps - cannot be empty
+                    while True:
+                        new_steps = input("Enter new steps:")
+                        if new_steps.strip():
+                            recipe["steps"] = new_steps
+                            break
+                        print("Steps cannot be empty!")
 
                 elif change=="ingredients":
                     selected_ids = []
