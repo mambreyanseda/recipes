@@ -307,7 +307,7 @@ def calorie_counter(recipes_list, ingredients_list):
             total_calories = 0
             ing_ids = recipe["ingredient_ids"]
 
-            print(recipe["id"]) # debuging
+            print(f"The recipe ID is {recipe['id']}")
             if ing_ids:  
                 for ing_id in ing_ids:
                     for ing in ingredients_list:
