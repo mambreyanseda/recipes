@@ -9,4 +9,4 @@ id,name,category,ingredient_ids,steps
 8,Chocolate Cake,Dessert,"1,2,3","Mix ingredients, bake at 180°C for 30 minutes."
 9,Caesar Salad,Lunch,"4,7,5,6,3","Mix lettuce, grilled chicken, feta, croutons, add olive oil and salt."
 10,Fruit Salad,Breakfast,"10,11","Cut fruits, mix them together."
-11,Spagetti,dinner,8,"Take pasta, boil."
+11,Spagetti,dinner,"8","Take pasta, boil."

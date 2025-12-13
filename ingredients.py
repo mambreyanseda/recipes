@@ -58,14 +58,25 @@ def search_ingredients(ingredients_list):
         print("No ingredients found.")
 
 def search_ingredients_by_calories(ingredients_list):
-    min_cal_input = input("Minimum calories (or 'back' to cancel): ")
-    if min_cal_input.lower()=="back":
-        return
-    min_cal = int(min_cal_input)
-    max_cal_input = input("Maximum calories (or 'back' to cancel): ")
-    if max_cal_input.lower()=="back":
-        return
-    max_cal = int(max_cal_input) 
+    # Validate minimum calories
+    while True:
+        min_cal_input = input("Minimum calories (or 'back' to cancel): ")
+        if min_cal_input.lower()=="back":
+            return
+        if min_cal_input.isdigit() and int(min_cal_input) >= 0:
+            min_cal = int(min_cal_input)
+            break
+        print("Please enter a valid number (0 or greater)!")
+    
+    # Validate maximum calories
+    while True:
+        max_cal_input = input("Maximum calories (or 'back' to cancel): ")
+        if max_cal_input.lower()=="back":
+            return
+        if max_cal_input.isdigit() and int(max_cal_input) >= 0:
+            max_cal = int(max_cal_input)
+            break
+        print("Please enter a valid number (0 or greater)!") 
     found = False
     for ing in ingredients_list:
         cal = int(ing["calories"])
@@ -155,17 +166,17 @@ def edit_ingredients(ingredients_list):
     print("Ingredient not found.") 
 
 def delete_ingredient(ingredients_list):
-    ingredient_id = input("Enter ingredient ID to delete (or 'back' to cancel): ")
-    if ingredient_id.lower()=="back":
+    ingredient_name = input("Enter ingredient name to delete (or 'back' to cancel): ")
+    if ingredient_name.lower()=="back":
         print("Cancelled.")
         return
     for ing in ingredients_list:
-        if ing["id"]==ingredient_id: 
+        if ing["name"].lower()==ingredient_name.lower():
             confirm = input(f"Really delete '{ing['name']}'? (y/n): ").lower()  
             if confirm in ["y", "yes"]:
                 ingredients_list.remove(ing)  
                 save_ingredients(ingredients_list) 
                 print("Deleted!")
             return
-    print("Not found.")
+    print("Ingredient not found.")
 

@@ -2,7 +2,7 @@
 
 ## What This Program Does
 
-This is a console-based recipe management system I built. It helps you manage recipes, ingredients, and plan your weekly meals. Everything runs in the terminal and saves data to CSV and JSON files.
+This is a console-based recipe management system designed for families. Each family member can create their own account with password protection, but everyone shares the same recipe collection and meal plan - just like a family shares one cookbook. The program helps manage recipes, track ingredients with nutritional information, and plan weekly meals. Everything runs in the terminal and saves data to CSV and JSON files.
 
 ## How to Use the Program
 
@@ -69,9 +69,9 @@ Steps:
 Chop lettuce and vegetables, add feta, drizzle olive oil, sprinkle salt, mix well.
 ```
 
-**Option 2 - Search recipes:** You can search by the recipe name, category, or even by an ingredient. It's case-insensitive so don't worry about capitals.
+**Option 2 - Search recipes:** You can search by the recipe name, category, or even by an ingredient. 
 
-For example, if I search for "egg":
+For example, if you search for "egg":
 ```
 Name: Pancakes
 Category: Breakfast
@@ -96,7 +96,15 @@ Mix ingredients, bake at 180°C for 30 minutes.
 
 It shows all recipes that contain eggs.
 
+If nothing matches your search, you'll get:
+- No results found → "Can't find that recipe."
+
 **Option 3 - Add recipe:** This is where you create new recipes. The program asks for the recipe name, category, and cooking steps. Then it shows you all available ingredients and you can pick which ones you need. If an ingredient isn't in the system yet, you can add it right there (option 2 in the ingredient selection menu).
+
+If you try to enter invalid data, you'll get error messages:
+- Empty name → "Recipe name cannot be empty! Please enter a valid name."
+- Empty category → "Category cannot be empty! Please enter a valid category."
+- Empty steps → "Recipe steps cannot be empty! Please enter valid steps."
 
 Here's what it looks like:
 ```
@@ -162,7 +170,12 @@ Type 'done' to finish editing recipe or Enter to continue: done
 Recipe updated!
 ```
 
-**Option 5 - Delete recipe:** Removes a recipe from the system. Don't worry, it asks for confirmation first so you don't accidentally delete something important.
+If you try to enter invalid data while editing, you'll get:
+- Empty name → "Name cannot be empty!"
+- Empty steps → "Steps cannot be empty!"
+- Recipe not found → "Recipe not found."
+
+**Option 5 - Delete recipe:** Removes a recipe from the system. It asks for confirmation first so you don't accidentally delete something important.
 
 ```
 Enter recipe name to delete (or 'back' to cancel): Tea
@@ -170,13 +183,23 @@ Really delete 'Tea'? (y/n): yes
 Deleted!
 ```
 
-**Option 6 - Count recipe calories:** This was fun to implement. It adds up all the calories from the ingredients in a recipe automatically.
+Possible outcomes:
+- Recipe found and confirmed → "Deleted!"
+- Recipe not found → "Recipe not found."
+- User says anything other than 'y'/'yes' → Deletion cancelled
+
+**Option 6 - Count recipe calories:** It adds up all the calories from the ingredients in a recipe automatically.
 
 ```
 Enter recipe name (or 'back' to cancel): Greek Salad
 The recipe ID is 1
 Total calories: 210 cal
 ```
+
+Possible outcomes:
+- Recipe found → Shows ID and total calories
+- Recipe not found → "Recipe not found."
+- Recipe has no ingredients → "No ingredients."
 
 ### 2. Ingredients Menu
 
@@ -234,7 +257,10 @@ Name: Yogurt, Category: Dairy, Calories: 60
 Name: Sugar, Category: Sweetener, Calories: 70
 ```
 
-**Option 4 - Add ingredient:** Create a new ingredient. The program has validation - it won't let you enter empty names, empty categories, or zero/negative calories. I added this because I kept making mistakes during testing.
+If no ingredients are found in that range, you'll get:
+- No matches → "No ingredients found."
+
+**Option 4 - Add ingredient:** Create a new ingredient. The program has validation - it won't let you enter empty names, empty categories, or zero/negative calories. 
 
 ```
 Enter ingredient name (or 'back' to cancel): Butter
@@ -257,6 +283,11 @@ Enter new value: 5
 Updated!
 ```
 
+Possible outcomes:
+- Valid changes → "Updated!"
+- Ingredient not found → "Ingredient not found."
+- Invalid new values → Same validation as adding (empty fields rejected, calories must be positive)
+
 **Option 6 - Delete ingredient:** Remove an ingredient by entering its name. It asks for confirmation.
 
 ```
@@ -264,6 +295,11 @@ Enter ingredient name to delete (or 'back' to cancel): candy
 Really delete 'candy'? (y/n): y
 Deleted!
 ```
+
+Possible outcomes:
+- Ingredient found and confirmed → "Deleted!"
+- Ingredient not found → "Ingredient not found."
+- User says anything other than 'y'/'yes' → Deletion cancelled
 
 ### 3. Meal Plan Menu
 
@@ -290,8 +326,7 @@ Sunday:
 
 If there's no meal planned for that day, it just says "No meal planned for this day."
 
-**Option 2 - Add meal plan:** Choose a day and add a recipe to it. You can add multiple recipes to the same day by doing this multiple times.
-
+**Option 2 - Add meal plan:** Choose a day and add a recipe to it.
 ```
 Enter day (or 'back' to cancel): Sunday
 Available recipes:
@@ -310,7 +345,8 @@ Enter recipe name: Chicken Pasta
 Added Chicken Pasta to Sunday.
 ```
 
-If you try to add a recipe that doesn't exist, you'll get "Recipe doesn't exist."
+If you try to add a recipe that doesn't exist, you'll get:
+- Non-existent recipe → "Recipe doesn't exist."
 
 **Option 3 - Delete meal plan:** You can delete either by day (removes all meals for that day) or by recipe name (removes just that recipe). Both ask for confirmation.
 
@@ -329,6 +365,13 @@ Enter day: Sunday
 Really delete all meals for Sunday? (y/n): y
 Deleted meal for Sunday
 ```
+
+Possible outcomes:
+- Delete by name, found and confirmed → "Deleted."
+- Delete by name, not found → "Not found."
+- Delete by day, found and confirmed → "Deleted meal for [day]"
+- Delete by day, not found → "No meal for that day."
+- User says anything other than 'y'/'yes' → Deletion cancelled
 
 ## Important Things to Know
 
@@ -356,15 +399,13 @@ The program saves immediately whenever you make a change, so you don't have to w
 
 ## Notes
 
-Categories are case-insensitive - the program converts everything to lowercase automatically. This prevents having duplicate categories like "Breakfast", "breakfast", and "BREAKFAST".
-
-When you delete an ingredient, recipes that use it will still exist but they'll show "Ingredient not found" for that ingredient when you view them. So be careful about deleting ingredients that are being used.
+The program is designed to be user-friendly and prevent errors. All searches and categories are case-insensitive to avoid duplicates like "Breakfast" and "breakfast", and the validation system won't let you save empty names or categories (including whitespace-only inputs like spaces or tabs) or use non-positive calories. If you try to enter an empty value, the program will show an error message and keep asking until you provide valid input. When you delete something (recipe, ingredient, or meal), it always asks for confirmation so you don't accidentally remove important data, and if you delete an ingredient that's used in recipes, those recipes will still exist but show "Ingredient not found" for that ingredient.
 
 ## About the Code
 
-### How I Organized the Files
+### How We Organized the Files
 
-I split the program into different Python files to keep things organized. 
+We splited the program into different Python files to keep things organized. 
 
 **main.py** - This is where the program starts. It handles the login system and shows the main menu. When you run the program, this is what executes first.
 
@@ -406,7 +447,7 @@ When you make changes (add/edit/delete):
 2. The appropriate save function is called immediately
 3. The save function uses file_utils to write back to the file
 
-This means changes save instantly.
+This means changes save instantly, which is nice because you don't lose work.
 
 ### ID System
 
@@ -415,5 +456,4 @@ Each recipe and ingredient gets a unique ID number. The last_ids.json file keeps
 2. Increments the appropriate counter (recipes or ingredients)
 3. Assigns that number as the new ID
 4. Saves the updated counter back to last_ids.json
-
 

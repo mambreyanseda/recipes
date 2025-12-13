@@ -64,10 +64,12 @@ def delete_meal(mealplan):
         return
     if choice=="day":
         day = input("Enter day: ").capitalize()
-        removed = mealplan.pop(day, None)
-        if removed:
-            print(f"Deleted meal for {day}")
-            change_meal_plan(mealplan)
+        if day in mealplan:
+            confirm = input(f"Really delete all meals for {day}? (y/n): ").lower()
+            if confirm in ["y", "yes"]:
+                mealplan.pop(day)
+                change_meal_plan(mealplan)
+                print(f"Deleted meal for {day}")
         else:
             print("No meal for that day.")
     elif choice=="name":
