@@ -1,7 +1,7 @@
 id,name,category,calories
 1,Egg,Protein,70
 2,Milk,Dairy,50
-3,Salt,Spice,0
+3,Salt,Spice,1
 4,Lettuce,Vegetable,5
 5,Feta,Dairy,80
 6,Olive Oil,Fat,120
@@ -11,7 +11,7 @@ id,name,category,calories
 10,Banana,Fruit,90
 11,Yogurt,Dairy,60
 12,Honey,Sweetener,20
-13,bibar,spice,0
+13,bibar,spice,1
 14,candy,sweets,150
 15,Sugar,Sweetener,70
 16,Water,liquid,1
